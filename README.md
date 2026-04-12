@@ -65,8 +65,9 @@ The custom enclosure was modeled in **Onshape** and is split into 4 main 3D prin
 * **1x** 4-ohm 3W Speaker
 * **2x** N20 Micro Gear Motors 
 * **2x** 34mm Wheels
+* **1x** jumper wires
 * **2x** Ball Caster Wheels
-* **2x** Li-ion Cylindrical Battery Cell
+* **1x** Li-ion Battery
 * **2x** VL53L0X Laser Ranging Sensor
 * **1x** Custom PCBA
 * Assorted M3 Screws, Nuts & Washers (for mounting display,speaker & connecting parts together)
