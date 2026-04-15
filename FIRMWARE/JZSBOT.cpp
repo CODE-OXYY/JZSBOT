@@ -13,22 +13,22 @@
 #define I2C2_SCL 13   // SCL2
 
 //  Motor Driver
-#define MOT_AIN1 9
-#define MOT_AIN2 10
-#define MOT_BIN1 11
-#define MOT_BIN2 12
-#define MOT_SLEEP 13  
+#define motA1 9
+#define motA2 10
+#define motB1 11
+#define motB2 12
+#define motSleep 13  
 
 // I2S Speaker
-#define I2S_BCLK  48
+#define I2C_BCLK  48
 #define I2S_LRC   21
 #define I2S_DOUT  47
 
 
-Adafruit_LSM6DS33 lsm6ds3;
+Adafruit_LSM6DS33 lsm;
 Adafruit_BME680 bme; 
-Adafruit_VL53L0X lox_back = Adafruit_VL53L0X();  
-Adafruit_VL53L0X lox_front = Adafruit_VL53L0X(); 
+Adafruit_VL53L0X laser_back = Adafruit_VL53L0X();  
+Adafruit_VL53L0X laser_front = Adafruit_VL53L0X(); 
 TFT_eSPI tft = TFT_eSPI(); 
 unsigned long lastReadTime = 0;
 
@@ -46,12 +46,12 @@ void setup() {
   Serial.println("Display Initialized");
 
   // MOTOR 
-  pinMode(MOT_AIN1, OUTPUT);
-  pinMode(MOT_AIN2, OUTPUT);
-  pinMode(MOT_BIN1, OUTPUT);
-  pinMode(MOT_BIN2, OUTPUT);
-  pinMode(MOT_SLEEP, OUTPUT);
-  digitalWrite(MOT_SLEEP, HIGH); 
+  pinMode(motA1, OUTPUT);
+  pinMode(motA2, OUTPUT);
+  pinMode(motB1, OUTPUT);
+  pinMode(motB2, OUTPUT);
+  pinMode(motSleep, OUTPUT);
+  digitalWrite(motSleep, HIGH); 
   Serial.println("LEGS Initialized !!!!!");
 
   // DUAL I2C  SETUP
@@ -59,7 +59,7 @@ void setup() {
   Wire1.begin(I2C2_SDA, I2C2_SCL);       
 
   // LSM6DS3 
-  if (!lsm6ds3.begin_I2C(0x6A, &Wire)) { 
+  if (!lsm.begin_I2C(0x6A, &Wire)) { 
     Serial.println("LSM6DS3 NOT FOUND!");
     tft.drawString("LSM6DS3: FAIL", 10, 40, 2);
   } else {
@@ -82,13 +82,13 @@ void setup() {
   }
 
    // VL53L0X 
-  if (!lox_back.begin(0x29, false, &Wire, Adafruit_VL53L0X::VL53L0X_SENSE_DEFAULT)) {
+  if (!laser_back.begin(0x29, false, &Wire, Adafruit_VL53L0X::VL53L0X_SENSE_DEFAULT)) {
     Serial.println("VL53L0X (Back) NOT FOUND!");
   } else {
     Serial.println("VL53L0X (Back) Found!");
   }
 
-  if (!lox_front.begin(0x29, false, &Wire1, Adafruit_VL53L0X::VL53L0X_SENSE_DEFAULT)) {
+  if (!laser_front.begin(0x29, false, &Wire1, Adafruit_VL53L0X::VL53L0X_SENSE_DEFAULT)) {
     Serial.println(" VL53L0X (Front) NOT FOUND!");
   } else {
     Serial.println("VL53L0X (Front) Found!");
@@ -107,14 +107,14 @@ void setup() {
    .use_apll = false
   };
   i2s_pin_config_t pin_config = {
-   .bck_io_num = I2S_BCLK,
+   .bck_io_num = I2C_BCLK,
    .ws_io_num = I2S_LRC,
    .data_out_num = I2S_DOUT,
    .data_in_num = I2S_PIN_NO_CHANGE
   };
   i2s_driver_install(I2S_NUM_0, &i2s_config, 0, NULL);
   i2s_set_pin(I2S_NUM_0, &pin_config);
-  Serial.println("Audio Initialized !!!!");
+  Serial.println("Audio Initialized HEHEHEHE !!!!");
 
   Serial.println(" JZS WOKE UP \n");
   delay(2000);
@@ -131,18 +131,18 @@ void loop() {
     }
     // READ LSM6DS3
     sensors_event_t accel, gyro, temp;
-    lsm6ds3.getEvent(&accel, &gyro, &temp);
+    lsm.getEvent(&accel, &gyro, &temp);
     Serial.print("LSM6DS3  -> Accel X: "); Serial.print(accel.acceleration.x); Serial.println(" m/s^2");
 
     // READ VL53L0X
     VL53L0X_RangingMeasurementData_t measure_back;
-    lox_back.rangingTest(&measure_back, false);
+    laser_back.rangingTest(&measure_back, false);
     if (measure_back.RangeStatus!= 4) {
       Serial.print("VL53 (B) -> Dist: "); Serial.print(measure_back.RangeMilliMeter); Serial.println(" mm");
     }
     
     VL53L0X_RangingMeasurementData_t measure_front;
-    lox_front.rangingTest(&measure_front, false);
+    laser_front.rangingTest(&measure_front, false);
     if (measure_front.RangeStatus!= 4) {
       Serial.print("VL53 (F) -> Dist: "); Serial.print(measure_front.RangeMilliMeter); Serial.println(" mm");
     }
@@ -150,16 +150,16 @@ void loop() {
     Serial.println("====================================\n");
   }
 
-  testMotors(); 
+  motarTest(); 
 }
 
-void testMotors() {
+void motarTest() {
   // Forward
-  digitalWrite(MOT_AIN1, HIGH); digitalWrite(MOT_AIN2, LOW);
-  digitalWrite(MOT_BIN1, HIGH); digitalWrite(MOT_BIN2, LOW);
+  digitalWrite(motA1, HIGH); digitalWrite(motA2, LOW);
+  digitalWrite(motB1, HIGH); digitalWrite(motB2, LOW);
   delay(1000);
   // Stop
-  digitalWrite(MOT_AIN1, LOW); digitalWrite(MOT_AIN2, LOW);
-  digitalWrite(MOT_BIN1, LOW); digitalWrite(MOT_BIN2, LOW);
+  digitalWrite(motA1, LOW); digitalWrite(motA2, LOW);
+  digitalWrite(motB1, LOW); digitalWrite(motB2, LOW);
   delay(2000);
 }
