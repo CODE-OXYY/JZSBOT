@@ -6,12 +6,11 @@
 #include <TFT_eSPI.h>          
 #include <driver/i2s.h>        
 
-// PIN DEFINITIONS
-
-#define I2C1_SDA 35   // Main SDA
-#define I2C1_SCL 36   // Main SCL
-#define I2C2_SDA 2    // SDA_2
-#define I2C2_SCL 13   // SCL_2
+// PINS
+#define I2C1_SDA 35   // SDA1
+#define I2C1_SCL 36   // SCL1
+#define I2C2_SDA 2    // SDA2
+#define I2C2_SCL 13   // SCL2
 
 //  Motor Driver
 #define MOT_AIN1 9
@@ -20,7 +19,7 @@
 #define MOT_BIN2 12
 #define MOT_SLEEP 13  
 
-// I2S Speaker Pins 
+// I2S Speaker
 #define I2S_BCLK  48
 #define I2S_LRC   21
 #define I2S_DOUT  47
