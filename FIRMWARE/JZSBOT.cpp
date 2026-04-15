@@ -37,7 +37,7 @@ void setup() {
   while (!Serial) delay(10);
   Serial.println("\n--- JZSBOT STARTTTTTTTTTT ---");
 
-//  DISPLAY SETUP
+  //  DISPLAY
   tft.init();
   tft.setRotation(1); 
   tft.fillScreen(TFT_BLACK);
@@ -45,7 +45,7 @@ void setup() {
   tft.drawString("JZSBOT NOW I AM COMING", 10, 10, 4);
   Serial.println("Display Initialized");
 
-  // MOTOR DRIVER SETUP
+  // MOTOR 
   pinMode(MOT_AIN1, OUTPUT);
   pinMode(MOT_AIN2, OUTPUT);
   pinMode(MOT_BIN1, OUTPUT);
@@ -67,7 +67,7 @@ void setup() {
     tft.drawString("LSM6DS3: OK", 10, 40, 2);
   }
 
-// BME680 SETUP 
+  // BME680 
   if (!bme.begin(0x76, &Wire)) { 
     Serial.println(" BME680 NOT FOUND!");
     tft.drawString(" BME680: FAIL", 10, 60, 2);
@@ -81,7 +81,7 @@ void setup() {
     bme.setGasHeater(320, 150); 
   }
 
-// VL53L0X 
+   // VL53L0X 
   if (!lox_back.begin(0x29, false, &Wire, Adafruit_VL53L0X::VL53L0X_SENSE_DEFAULT)) {
     Serial.println("VL53L0X (Back) NOT FOUND!");
   } else {
@@ -94,7 +94,7 @@ void setup() {
     Serial.println("VL53L0X (Front) Found!");
   }
 
-   // AUDIO SETUP 
+   // AUDIO
   i2s_config_t i2s_config = {
    .mode = (i2s_mode_t)(I2S_MODE_MASTER | I2S_MODE_TX),
    .sample_rate = 44100,
@@ -125,16 +125,16 @@ void loop() {
   if (millis() - lastReadTime > 1000) { 
     lastReadTime = millis();
     
-  // READ BME680
+    // READ BME680
     if (bme.performReading()) {
       Serial.print("BME680   -> Temp: "); Serial.print(bme.temperature); Serial.println(" *C");
     }
-// READ LSM6DS3
+    // READ LSM6DS3
     sensors_event_t accel, gyro, temp;
     lsm6ds3.getEvent(&accel, &gyro, &temp);
     Serial.print("LSM6DS3  -> Accel X: "); Serial.print(accel.acceleration.x); Serial.println(" m/s^2");
 
-  // READ VL53L0X
+    // READ VL53L0X
     VL53L0X_RangingMeasurementData_t measure_back;
     lox_back.rangingTest(&measure_back, false);
     if (measure_back.RangeStatus!= 4) {
