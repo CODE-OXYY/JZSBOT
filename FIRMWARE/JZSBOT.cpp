@@ -43,7 +43,7 @@ void setup() {
   tft.fillScreen(TFT_BLACK);
   tft.setTextColor(TFT_WHITE);
   tft.drawString("JZSBOT NOW I AM COMING", 10, 10, 4);
-  Serial.println("Display Initialized");
+  Serial.println("FACE Initialized");
 
   // MOTOR 
   pinMode(motA1, OUTPUT);
@@ -60,20 +60,20 @@ void setup() {
 
   // LSM6DS3 
   if (!lsm.begin_I2C(0x6A, &Wire)) { 
-    Serial.println("LSM6DS3 NOT FOUND!");
-    tft.drawString("LSM6DS3: FAIL", 10, 40, 2);
+    Serial.println("LSM6DS3 Not Found :( ");
+    tft.drawString("RIP LSM6DS3 KABOOM", 10, 40, 2);
   } else {
-    Serial.println("LSM6DS3 Found!");
-    tft.drawString("LSM6DS3: OK", 10, 40, 2);
+    Serial.println("LSM6DS3 Found :)");
+    tft.drawString("LSM6DS3 Is Happyyy", 10, 40, 2);
   }
 
   // BME680 
   if (!bme.begin(0x76, &Wire)) { 
-    Serial.println(" BME680 NOT FOUND!");
-    tft.drawString(" BME680: FAIL", 10, 60, 2);
+    Serial.println(" BME680 Not Found :( ");
+    tft.drawString(" RIP BME680 KABOOM ", 10, 60, 2);
   } else {
-    Serial.println(" BME680 Found!");
-    tft.drawString("BME680: OK", 10, 60, 2);
+    Serial.println(" BME680 Found :) ");
+    tft.drawString("BME680 Is Happyyy ", 10, 60, 2);
     bme.setTemperatureOversampling(BME680_OS_8X);
     bme.setHumidityOversampling(BME680_OS_2X);
     bme.setPressureOversampling(BME680_OS_4X);
@@ -81,17 +81,17 @@ void setup() {
     bme.setGasHeater(320, 150); 
   }
 
-   // VL53L0X 
+   //  LASER (VL53L0X)
   if (!laser_back.begin(0x29, false, &Wire, Adafruit_VL53L0X::VL53L0X_SENSE_DEFAULT)) {
-    Serial.println("VL53L0X (Back) NOT FOUND!");
+    Serial.println("Laser Back Not Found :( ");
   } else {
-    Serial.println("VL53L0X (Back) Found!");
+    Serial.println("Laser Back Found :) ");
   }
 
   if (!laser_front.begin(0x29, false, &Wire1, Adafruit_VL53L0X::VL53L0X_SENSE_DEFAULT)) {
-    Serial.println(" VL53L0X (Front) NOT FOUND!");
+    Serial.println(" Laser Front Not Found :( ");
   } else {
-    Serial.println("VL53L0X (Front) Found!");
+    Serial.println("Laser Front Found :)");
   }
 
    // AUDIO
@@ -125,41 +125,57 @@ void loop() {
   if (millis() - lastReadTime > 1000) { 
     lastReadTime = millis();
     
-    // READ BME680
+    // READ BME680 Sensor Value
     if (bme.performReading()) {
-      Serial.print("BME680   -> Temp: "); Serial.print(bme.temperature); Serial.println(" *C");
+      Serial.print("Temperature is ");
+      Serial.print(bme.temperature);
+      Serial.println(" *C");
     }
-    // READ LSM6DS3
+
+    // READ LSM6DS3 Values
     sensors_event_t accel, gyro, temp;
     lsm.getEvent(&accel, &gyro, &temp);
-    Serial.print("LSM6DS3  -> Accel X: "); Serial.print(accel.acceleration.x); Serial.println(" m/s^2");
+    Serial.print("Acceleration: "); 
+    Serial.print(accel.acceleration.x); 
+    Serial.println(" m/s^2");
 
-    // READ VL53L0X
+    // READ VL53L0X Values
     VL53L0X_RangingMeasurementData_t measure_back;
     laser_back.rangingTest(&measure_back, false);
     if (measure_back.RangeStatus!= 4) {
-      Serial.print("VL53 (B) -> Dist: "); Serial.print(measure_back.RangeMilliMeter); Serial.println(" mm");
+      Serial.print("Above Surface Back: "); 
+      Serial.print(measure_back.RangeMilliMeter); 
+      Serial.println(" mm");
     }
     
     VL53L0X_RangingMeasurementData_t measure_front;
     laser_front.rangingTest(&measure_front, false);
     if (measure_front.RangeStatus!= 4) {
-      Serial.print("VL53 (F) -> Dist: "); Serial.print(measure_front.RangeMilliMeter); Serial.println(" mm");
+      Serial.print("Above Surface Front: "); 
+      Serial.print(measure_front.RangeMilliMeter); 
+      Serial.println(" mm");
     }
 
-    Serial.println("====================================\n");
+    Serial.println("========= HIIIIIIIIIIIIIII =======\n");
   }
 
   motarTest(); 
 }
 
 void motarTest() {
-  // Forward
-  digitalWrite(motA1, HIGH); digitalWrite(motA2, LOW);
-  digitalWrite(motB1, HIGH); digitalWrite(motB2, LOW);
+  // Move forward
+  digitalWrite(motA1, HIGH); 
+  digitalWrite(motA2, LOW);
+
+  digitalWrite(motB1, HIGH); 
+  digitalWrite(motB2, LOW);
   delay(1000);
-  // Stop
-  digitalWrite(motA1, LOW); digitalWrite(motA2, LOW);
-  digitalWrite(motB1, LOW); digitalWrite(motB2, LOW);
+
+  // Stopppp
+  digitalWrite(motA1, LOW); 
+  digitalWrite(motA2, LOW);
+
+  digitalWrite(motB1, LOW); 
+  digitalWrite(motB2, LOW);
   delay(2000);
 }
