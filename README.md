@@ -73,6 +73,10 @@ The custom enclosure was modeled in **Onshape** and is split into 4 main 3D prin
 * Assorted M3 Screws, Nuts & Washers (for mounting display,speaker & connecting parts together)
 * 3D Printed Parts (Base, Wall, Head, Head Cap)
 
+## ✨ PCBA Parameters
+
+![PCBA Parameters](ASSETS/PCBA.png)
+
 ---
 
 ### Extra stuff
