@@ -1,5 +1,5 @@
 # JZSBOT (Desktop Pet Robot)
-A custom desktop robot with the personality of my fav streamer. Built entirely from scratch I designed both the custom electronics (PCB) and the physical 3D body (CAD).
+I built a custom desktop robot with the personality of my favorite streamer, including audio and animation which are stored in sd card. It was built entirely from scratch, I designed both the custom electronics (PCB) and the physical 3D body (CAD) it can move with the help of two N20 motors, show animations on a 3.5 inch display which is the face of the robot, and play sound with the help of a 3 ohm 4 watt speaker. This robot has built in environment, gyro, and other sensors.
 
 ## 🛠️ Hardware & PCB Design
 The schematic was designed in Altium, split into 3 sheets for better readability.
