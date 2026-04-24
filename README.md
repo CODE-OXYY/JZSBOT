@@ -42,6 +42,15 @@ The custom enclosure was modeled in **Onshape** and is split into 4 main 3D prin
 ![Base](ASSETS/11Base.png)
 ![Base Details](ASSETS/13.png)
 
+### Assembly
+![JZSBOT Assembly 1](ASSETS/14Assembly1.png)
+![JZSBOT Assembly 2](ASSETS/15Assembly2.png)
+![JZSBOT Assembly 3](ASSETS/16Assembly3.png)
+![JZSBOT Assembly 4](ASSETS/17Assembly4.png)
+![JZSBOT Assembly 5](ASSETS/18Assembly5.png)
+![JZSBOT Assembly 6](ASSETS/19Assembly6.png)
+
+
 ### Fully Assembled JZSBOT
 ![JZSBOT Assembled A](ASSETS/12JZSBOTA.png)
 ![JZSBOT Assembled B](ASSETS/12JZSBOTB.png)
